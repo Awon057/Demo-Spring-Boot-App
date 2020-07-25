@@ -39,6 +39,9 @@ public class Person implements Serializable{
 
 	@Column(name= "weight")
 	private Double weight;
+	
+	@Column(name= "phone_no", unique = true)
+	private String mobileNo;
 
 	@CreationTimestamp
 	@Column(name= "created_at")
