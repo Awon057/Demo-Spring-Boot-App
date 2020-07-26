@@ -19,18 +19,23 @@ public class PersonService extends CommonService<Person> {
 		this.repository = (PersonRepository)repository;
 	}
 	
-	public void savePerson(PersonDTO dto) throws Exception{
+	public PersonDTO savePerson(PersonDTO dto) throws Exception {
 		Person person = new Person();
 		
-		if(Objects.isNull(repository.findByMobileNo(dto.getMobileNo())))
-			person.setMobileNo(dto.getMobileNo());
-		else
-			throw new NotFoundException("Error! This mobile no exists");
-
+		if(!Objects.isNull(repository.findByMobileNo(dto.getMobileNo()))) {
+			dto.setStatus(203);
+			dto.setMessage("Error! This mobile number exists");
+			return dto;
+//			throw new Exception("Error! This mobile number exists");
+		}
+		dto.setStatus(200);
+		dto.setMessage("Success");
+		person.setMobileNo(dto.getMobileNo());
 		person.setPersonName(dto.getPersonName());
 		person.setAge(dto.getAge());
 		person.setWeight(dto.getWeight());
 		person.setHeight(dto.getHeight());
 		repository.save(person);
+		return dto;
 	}
 }

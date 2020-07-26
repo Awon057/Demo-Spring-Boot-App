@@ -27,9 +27,8 @@ public class Controller {
 	
 	@PostMapping("/person")
 	public ResponseEntity<?> saveDevice(@RequestBody PersonDTO dto) {
-		try {
-			personService.savePerson(dto);
-			return ResponseEntity.ok(HttpStatus.OK);
+		try {			
+			return ResponseEntity.ok(personService.savePerson(dto));
 		} catch (Exception e) {
 			throw new ApiRequestException(e.getMessage());
 		}
