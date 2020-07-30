@@ -1,24 +1,26 @@
 package com.awon.demo.api;
 
+import java.util.List;
 import java.util.Objects;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import javassist.NotFoundException;
-
 @Service
-public class PersonService extends CommonService<Person> {
+public class PersonService {
 
 	@Autowired
 	private PersonRepository repository;
+	@Autowired
+	private RoleRepository roleRepository;
 	
-	public PersonService(JpaRepository<Person, Long> repository) {
-		super(repository);
-		this.repository = (PersonRepository)repository;
+	public List<Person> findAll(){
+		return repository.findAll();
 	}
 	
+	@Transactional
 	public PersonDTO savePerson(PersonDTO dto) throws Exception {
 		Person person = new Person();
 		
@@ -28,6 +30,7 @@ public class PersonService extends CommonService<Person> {
 			return dto;
 //			throw new Exception("Error! This mobile number exists");
 		}
+		
 		dto.setStatus(200);
 		dto.setMessage("Success");
 		person.setMobileNo(dto.getMobileNo());
@@ -35,6 +38,8 @@ public class PersonService extends CommonService<Person> {
 		person.setAge(dto.getAge());
 		person.setWeight(dto.getWeight());
 		person.setHeight(dto.getHeight());
+		
+		person.setRole(roleRepository.getOne(dto.getRoleID()));
 		repository.save(person);
 		return dto;
 	}

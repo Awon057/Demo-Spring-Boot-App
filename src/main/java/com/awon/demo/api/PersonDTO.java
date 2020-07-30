@@ -12,4 +12,5 @@ public class PersonDTO extends Status {
 	private Double height;
 	private Double weight;
 	private String mobileNo;
+	private long roleID;
 }
