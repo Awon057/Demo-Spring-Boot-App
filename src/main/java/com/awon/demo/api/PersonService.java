@@ -39,7 +39,12 @@ public class PersonService {
 		person.setWeight(dto.getWeight());
 		person.setHeight(dto.getHeight());
 		
-		person.setRole(roleRepository.getOne(dto.getRoleID()));
+		Role role = roleRepository.getOne(dto.getRoleID());
+		
+		System.out.println("role " + role.getId() + " " + role.getRoleName());
+		System.out.println("dto " + dto.getRoleID());
+		
+		person.setRole(role);
 		repository.save(person);
 		return dto;
 	}
