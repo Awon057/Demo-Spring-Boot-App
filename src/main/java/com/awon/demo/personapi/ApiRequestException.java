@@ -1,4 +1,4 @@
-package com.awon.demo.api;
+package com.awon.demo.personapi;
 
 public class ApiRequestException extends RuntimeException {
 	/**

@@ -1,4 +1,7 @@
-package com.awon.demo.api;
+package com.awon.demo.personapi;
+
+import java.io.IOException;
+import java.util.Iterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -6,7 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.awon.demo.imageapi.ImageService;
 
 
 @RestController
@@ -14,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class Controller {
 	@Autowired
 	private PersonService personService;
+	@Autowired
+	private ImageService imageService;
 	@Autowired
 	private RoleService roleService;
 	
@@ -42,5 +51,20 @@ public class Controller {
 		} catch (Exception e) {
 			throw new ApiRequestException(e.getMessage());
 		}
+	}
+	
+	@PostMapping("/uploadImage")
+	public String uploadImage(@RequestParam("imageFile") MultipartFile[] files) {
+		String returnVal = "Success";
+		for (MultipartFile imageFile : files) {
+			try {
+				imageService.saveImage(imageFile);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				returnVal="Failed";
+			}
+		}
+		return returnVal;
 	}
 }

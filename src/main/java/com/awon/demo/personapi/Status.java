@@ -1,4 +1,4 @@
-package com.awon.demo.api;
+package com.awon.demo.personapi;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
